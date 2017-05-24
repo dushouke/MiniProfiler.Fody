@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using Mono.Cecil;
-using StackExchange.Profiling;
 
 namespace MiniProfiler.Fody.Weavers
 {
@@ -18,12 +16,24 @@ namespace MiniProfiler.Fody.Weavers
 
         public MethodReference GetProfilerCurrent()
         {
-            return _moduleDefinition.ImportReference(typeof(StackExchange.Profiling.MiniProfiler).GetMethod("get_Current", BindingFlags.Public | BindingFlags.Static));
+            var getCurrentMethod = new MethodReference("get_Current", _typeReferenceProvider.MiniProfiler, _typeReferenceProvider.MiniProfiler)
+            {
+                HasThis = false
+            };
+
+            return getCurrentMethod;
         }
 
         public MethodReference GetProfilerStep()
         {
-            return _moduleDefinition.ImportReference(typeof(MiniProfilerExtensions).GetMethod("Step", new[] {typeof(StackExchange.Profiling.MiniProfiler), typeof(string)}));
+            var getStepMethod = new MethodReference("Step", _typeReferenceProvider.Disposable, _typeReferenceProvider.MiniProfilerExtensions)
+            {
+                HasThis = false
+            };
+            getStepMethod.Parameters.Add(new ParameterDefinition(_typeReferenceProvider.MiniProfiler));
+            getStepMethod.Parameters.Add(new ParameterDefinition(_moduleDefinition.TypeSystem.String));
+
+            return getStepMethod;
         }
 
         public MethodReference GetDispose()

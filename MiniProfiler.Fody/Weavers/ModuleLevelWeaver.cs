@@ -22,6 +22,13 @@ namespace MiniProfiler.Fody.Weavers
         {
             try
             {
+                foreach (var assRef in moduleDefinition.AssemblyReferences) {
+                    var assembly = moduleDefinition.AssemblyResolver.Resolve(assRef);
+                    if (assembly != null) {
+                        WeavingLog.LogInfo("===========" + assembly.FullName);
+                    }
+                }
+
                 WeavingLog.LogInfo("Tracer: Starts weaving.");
                 var timer = Stopwatch.StartNew();
                 var weaver = new ModuleLevelWeaver(configuration, moduleDefinition);

@@ -14,26 +14,15 @@ namespace MiniProfiler.Fody.Weavers
             _typeReferenceProvider = typeReferenceProvider;
         }
 
-        public MethodReference GetProfilerCurrent()
+        public MethodReference GetProfilerStepStart()
         {
-            var getCurrentMethod = new MethodReference("get_Current", _typeReferenceProvider.MiniProfiler, _typeReferenceProvider.MiniProfiler)
+            var stepStartMethod = new MethodReference("StepStart", _typeReferenceProvider.Disposable, _typeReferenceProvider.Profiler)
             {
                 HasThis = false
             };
+            stepStartMethod.Parameters.Add(new ParameterDefinition(_moduleDefinition.TypeSystem.String));
 
-            return getCurrentMethod;
-        }
-
-        public MethodReference GetProfilerStep()
-        {
-            var getStepMethod = new MethodReference("Step", _typeReferenceProvider.Disposable, _typeReferenceProvider.MiniProfilerExtensions)
-            {
-                HasThis = false
-            };
-            getStepMethod.Parameters.Add(new ParameterDefinition(_typeReferenceProvider.MiniProfiler));
-            getStepMethod.Parameters.Add(new ParameterDefinition(_moduleDefinition.TypeSystem.String));
-
-            return getStepMethod;
+            return stepStartMethod;
         }
 
         public MethodReference GetDispose()

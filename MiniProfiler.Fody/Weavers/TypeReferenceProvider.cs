@@ -25,53 +25,42 @@ namespace MiniProfiler.Fody.Weavers
         //    get { return _asyncStateMachineAttribute.Value; }
         //}
 
-        public TypeReference MiniProfiler
+        public TypeReference Profiler
         {
             get
             {
-                var miniProfilerReference = GetMiniProfilerReference();
-                return new TypeReference("StackExchange.Profiling", "MiniProfiler", _moduleDefinition, miniProfilerReference);
+                var profilerReference = GetProfilerReference();
+                return new TypeReference("MiniProfiler.Fody.Wrapper", "Profiler", _moduleDefinition, profilerReference);
             }
         }
-
-
-        public TypeReference MiniProfilerExtensions
-        {
-            get
-            {
-                var miniProfilerReference = GetMiniProfilerReference();
-                return new TypeReference("StackExchange.Profiling", "MiniProfilerExtensions", _moduleDefinition, miniProfilerReference);
-            }
-        }
-
 
         public TypeReference Disposable
         {
             get { return _disposable.Value; }
         }
 
-        private IMetadataScope _miniProfilerScope;
-        public IMetadataScope GetMiniProfilerReference()
+        private IMetadataScope _profilerScope;
+        public IMetadataScope GetProfilerReference()
         {
-            if (_miniProfilerScope == null)
+            if (_profilerScope == null)
             {
-                var miniProfilerReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
-                if (miniProfilerReference == null)
+                var profilerAssemblyName = "MiniProfiler.Fody.Wrapper";
+
+                var profilerReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(profilerAssemblyName));
+                if (profilerReference == null)
                 {
-                    
-                    //"MiniProfiler, Version=3.2.0.157, Culture=neutral"
-                    var miniProfilerAssemblyName = new AssemblyName("MiniProfiler, Version=3.2.0.157, Culture=neutral, PublicKeyToken=b44f9351044011a3");
-                    miniProfilerReference = new AssemblyNameReference(miniProfilerAssemblyName.Name, miniProfilerAssemblyName.Version)
+                    var miniProfilerAssemblyName = new AssemblyName(profilerAssemblyName);
+                    profilerReference = new AssemblyNameReference(miniProfilerAssemblyName.Name, miniProfilerAssemblyName.Version)
                     {
                         PublicKeyToken = miniProfilerAssemblyName.GetPublicKeyToken()
                     };
-                    _moduleDefinition.AssemblyReferences.Add(miniProfilerReference);
+                    _moduleDefinition.AssemblyReferences.Add(profilerReference);
 
-                    _miniProfilerScope = miniProfilerReference;
+                    _profilerScope = profilerReference;
                 }
             }
 
-            return _miniProfilerScope;
+            return _profilerScope;
         }
 
     }

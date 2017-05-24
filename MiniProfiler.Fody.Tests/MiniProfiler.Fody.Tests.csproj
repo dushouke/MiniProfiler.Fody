@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MiniProfiler, Version=3.2.0.157, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
-      <HintPath>..\packages\MiniProfiler.3.2.0.157\lib\net40\MiniProfiler.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\FodyCecil.2.0.10\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -65,6 +62,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MiniProfiler.Fody.Wrapper\MiniProfiler.Fody.Wrapper.csproj">
+      <Project>{884f41f8-d7cc-4f94-bc18-c6e76e10a26d}</Project>
+      <Name>MiniProfiler.Fody.Wrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiniProfiler.Fody\MiniProfiler.Fody.csproj">
       <Project>{4686c596-2370-4b46-a5cd-4770672a04fb}</Project>
       <Name>MiniProfiler.Fody</Name>

@@ -9,6 +9,7 @@ namespace MiniProfiler.Fody
     public class ModuleWeaver: IWeavingLogger
     {
         public ModuleDefinition ModuleDefinition { get; set; }
+        public string References { get; set; }
 
         public void Execute()
         {
@@ -20,8 +21,8 @@ namespace MiniProfiler.Fody
             {
                 LogError(parser.Error);
             }
-            else
-            {
+            else {
+                WeavingLog.LogInfo("++++++++++++++++" + References);
                 ModuleLevelWeaver.Execute(parser.Result, ModuleDefinition);
             }
         }

@@ -119,6 +119,7 @@ namespace MiniProfiler.Fody.Filters
             public bool IsNoProfiler
             {
                 get { return _noProfiler; }
+
             }
 
             public bool IsProfilerOn

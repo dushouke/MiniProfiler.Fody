@@ -52,20 +52,11 @@ namespace MiniProfiler.Fody.Weavers
 
         private IMetadataScope _miniProfilerScope;
 
-        public IMetadataScope GetMiniProfilerReference() {
-            if (_miniProfilerScope == null) {
-                var miniProfilerReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
-                if (miniProfilerReference == null) {
-                    var miniProfilerAssemblyName = new AssemblyName("MiniProfiler");
-                    miniProfilerReference = new AssemblyNameReference(miniProfilerAssemblyName.Name, miniProfilerAssemblyName.Version)
-                    {
-                        PublicKeyToken = miniProfilerAssemblyName.GetPublicKeyToken()
-                    };
-
-                    _moduleDefinition.AssemblyReferences.Add(miniProfilerReference);
-
-                    _miniProfilerScope = miniProfilerReference;
-                }
+        public IMetadataScope GetMiniProfilerReference()
+        {
+            if (_miniProfilerScope == null)
+            {
+                _miniProfilerScope = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
             }
 
             return _miniProfilerScope;

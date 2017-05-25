@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Xml.Linq;
 using MiniProfiler.Fody.Helpers;
 using MiniProfiler.Fody.Weavers;
@@ -21,9 +22,32 @@ namespace MiniProfiler.Fody
             {
                 LogError(parser.Error);
             }
-            else {
-                WeavingLog.LogInfo("++++++++++++++++" + References);
+            else
+            {
+                EnsureMiniProfilerRef();
                 ModuleLevelWeaver.Execute(parser.Result, ModuleDefinition);
+            }
+        }
+
+        private void EnsureMiniProfilerRef()
+        {
+            var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
+            if (miniProfilerReference != null)
+            {
+                return;
+            }
+
+            var references = References.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var reference in references)
+            {
+                var assemblyDefinition = AssemblyDefinition.ReadAssembly(reference);
+                if (assemblyDefinition.Name.Name != "MiniProfiler")
+                {
+                    continue;
+                }
+
+                ModuleDefinition.AssemblyReferences.Add(AssemblyNameReference.Parse(assemblyDefinition.FullName));
+                break;
             }
         }
 

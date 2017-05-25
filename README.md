@@ -1,2 +1,0 @@
-# MiniProfiler.Fody
-MiniProfiler.Fody

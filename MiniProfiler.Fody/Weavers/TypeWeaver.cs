@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using MiniProfiler.Fody.Filters;
 using MiniProfiler.Fody.Helpers;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;

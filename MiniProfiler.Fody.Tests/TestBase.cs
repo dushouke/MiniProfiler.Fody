@@ -1,13 +1,12 @@
 ﻿using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CSharp;
+using MiniProfiler.Fody.Filters;
 using MiniProfiler.Fody.Weavers;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;

@@ -1,4 +1,5 @@
-﻿using Mono.Cecil;
+﻿using MiniProfiler.Fody.Filters;
+using Mono.Cecil;
 
 namespace MiniProfiler.Fody.Weavers
 {

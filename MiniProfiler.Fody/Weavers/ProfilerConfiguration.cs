@@ -1,4 +1,6 @@
-﻿namespace MiniProfiler.Fody.Weavers
+﻿using MiniProfiler.Fody.Filters;
+
+namespace MiniProfiler.Fody.Weavers
 {
     public class ProfilerConfiguration
     {

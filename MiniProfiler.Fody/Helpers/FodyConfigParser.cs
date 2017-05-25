@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using MiniProfiler.Fody.Filters;
 using MiniProfiler.Fody.Weavers;
 
 namespace MiniProfiler.Fody.Helpers

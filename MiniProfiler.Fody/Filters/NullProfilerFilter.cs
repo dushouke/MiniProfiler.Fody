@@ -1,6 +1,6 @@
 using Mono.Cecil;
 
-namespace MiniProfiler.Fody.Weavers
+namespace MiniProfiler.Fody.Filters
 {
     internal class NullProfilerFilter : IProfilerFilter
     {

@@ -50,12 +50,12 @@ namespace MiniProfiler.Fody.Weavers
                     continue;
                 }
 
-                var shouldAddTrace = !HasCompilerGeneratedAttribute
+                var shouldAddProfiler = !HasCompilerGeneratedAttribute
                                      && ((method.IsConstructor && _shouldProfilerConstructors && !method.IsStatic) || !method.IsConstructor)
                                      && _profilerFilter.ShouldAddProfiler(method)
                                      && ((method.IsPropertyAccessor() && _shouldProfilerProperties) || !method.IsPropertyAccessor());
 
-                _methodWeaverFactory.Create(method).Execute(shouldAddTrace);
+                _methodWeaverFactory.Create(method).Execute(shouldAddProfiler);
             }
         }
 

@@ -31,7 +31,7 @@ namespace MiniProfiler.Fody
 
         private void EnsureMiniProfilerRef()
         {
-            var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
+            var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
             if (miniProfilerReference != null)
             {
                 return;
@@ -41,7 +41,7 @@ namespace MiniProfiler.Fody
             foreach (var reference in references)
             {
                 var assemblyDefinition = AssemblyDefinition.ReadAssembly(reference);
-                if (assemblyDefinition.Name.Name != "MiniProfiler")
+                if (assemblyDefinition.Name.Name != AppConsts.MiniProfilerName)
                 {
                     continue;
                 }

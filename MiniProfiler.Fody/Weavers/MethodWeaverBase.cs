@@ -61,11 +61,11 @@ namespace MiniProfiler.Fody.Weavers
             }
         }
 
-        public void Execute(bool addTrace)
+        public void Execute(bool addProfiler)
         {
             _body.SimplifyMacros();
 
-            if (addTrace)
+            if (addProfiler)
             {
                 WeaveProfilerEnter();
                 WeaveProfilerLeave();

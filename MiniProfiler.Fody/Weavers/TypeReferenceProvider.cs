@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
+
 using Mono.Cecil;
 
 namespace MiniProfiler.Fody.Weavers
@@ -56,7 +56,7 @@ namespace MiniProfiler.Fody.Weavers
         {
             if (_miniProfilerScope == null)
             {
-                _miniProfilerScope = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals("MiniProfiler"));
+                _miniProfilerScope = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
             }
 
             return _miniProfilerScope;

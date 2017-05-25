@@ -22,16 +22,16 @@ namespace MiniProfiler.Fody.Weavers
         {
             try
             {
-                WeavingLog.LogInfo("Tracer: Starts weaving.");
+                WeavingLog.LogInfo("Profiler: Starts weaving.");
                 var timer = Stopwatch.StartNew();
                 var weaver = new ModuleLevelWeaver(configuration, moduleDefinition);
                 weaver.InternalExecute();
                 timer.Stop();
-                WeavingLog.LogInfo(String.Format("Tracer: Weaving done in {0} ms.", timer.ElapsedMilliseconds));
+                WeavingLog.LogInfo(string.Format("Profiler: Weaving done in {0} ms.", timer.ElapsedMilliseconds));
             }
             catch (Exception ex)
             {
-                WeavingLog.LogError(String.Format("Tracer: Weaving failed with {0}", ex));
+                WeavingLog.LogError(string.Format("Profiler: Weaving failed with {0}", ex));
                 throw;
             }
         }

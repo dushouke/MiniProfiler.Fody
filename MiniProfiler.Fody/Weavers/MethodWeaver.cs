@@ -8,7 +8,7 @@ namespace MiniProfiler.Fody.Weavers
 {
     internal class MethodWeaver : MethodWeaverBase
     {
-        private Instruction _firstInstructionAfterTraceEnter;
+        private Instruction _firstInstructionAfterProfilerEnter;
 
         internal MethodWeaver(TypeReferenceProvider typeReferenceProvider,
             MethodReferenceProvider methodReferenceProvider,
@@ -20,7 +20,7 @@ namespace MiniProfiler.Fody.Weavers
 
         protected override void WeaveProfilerEnter()
         {
-            _firstInstructionAfterTraceEnter = _body.Instructions.FirstOrDefault();
+            _firstInstructionAfterProfilerEnter = _body.Instructions.FirstOrDefault();
 
             var instructions = new List<Instruction>();
             instructions.Add(Instruction.Create(OpCodes.Call, _methodReferenceProvider.GetProfilerCurrent()));
@@ -49,7 +49,7 @@ namespace MiniProfiler.Fody.Weavers
             {
                 _body.ExceptionHandlers.Add(new ExceptionHandler(ExceptionHandlerType.Finally)
                 {
-                    TryStart = _firstInstructionAfterTraceEnter,
+                    TryStart = _firstInstructionAfterProfilerEnter,
                     TryEnd = handlerStart,
                     HandlerStart = handlerStart,
                     HandlerEnd = profilerReturnStart

@@ -55,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyWeaver.cs" />
+    <Compile Include="AppConsts.cs" />
+    <Compile Include="Filters\AssemblyLevelNoProfilerDefinition.cs" />
+    <Compile Include="Filters\AssemblyLevelProfilerDefinition.cs" />
+    <Compile Include="Filters\AssemblyLevelTraceDefinitionComparer.cs" />
+    <Compile Include="Filters\AssemblyLevelProfilerOnDefinition.cs" />
+    <Compile Include="Filters\NamespaceScope.cs" />
     <Compile Include="Filters\Visibility.cs" />
     <Compile Include="Helpers\FodyConfigParser.cs" />
     <Compile Include="Helpers\CecilExtensions.cs" />

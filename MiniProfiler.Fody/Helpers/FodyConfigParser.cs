@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using MiniProfiler.Fody.Filters;
 using MiniProfiler.Fody.Weavers;
@@ -15,7 +16,7 @@ namespace MiniProfiler.Fody.Helpers
         private string _error;
         private bool _profilerConstructorsFlag;
         private bool _profilerPropertiesFlag;
-        private IEnumerable<XElement> _filterConfigElements;
+        private List<XElement> _filterConfigElements;
 
         public static FodyConfigParser Parse(XElement element)
         {
@@ -30,9 +31,9 @@ namespace MiniProfiler.Fody.Helpers
             try
             {
                 _profilerConstructorsFlag = bool.Parse(GetAttributeValueOrDefault(element, "profilerConstructors", bool.FalseString));
-                _profilerPropertiesFlag = bool.Parse(GetAttributeValueOrDefault(element, "profilerProperties", bool.TrueString));
+                _profilerPropertiesFlag = bool.Parse(GetAttributeValueOrDefault(element, "profilerProperties", bool.FalseString));
 
-                _filterConfigElements = element.Descendants();
+                _filterConfigElements = element.Descendants().ToList();
             }
             catch (Exception ex)
             {
@@ -64,9 +65,9 @@ namespace MiniProfiler.Fody.Helpers
         private static string GetAttributeValue(XElement element, string attributeName, bool isMandatory)
         {
             var attribute = element.Attribute(attributeName);
-            if (isMandatory && (attribute == null || String.IsNullOrWhiteSpace(attribute.Value)))
+            if (isMandatory && (attribute == null || string.IsNullOrWhiteSpace(attribute.Value)))
             {
-                throw new ApplicationException(String.Format("Tracer: attribute {0} is missing or empty.", attributeName));
+                throw new ApplicationException(string.Format("Profiler: attribute {0} is missing or empty.", attributeName));
             }
 
             return attribute != null ? attribute.Value : null;

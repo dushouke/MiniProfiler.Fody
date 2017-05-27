@@ -9,16 +9,16 @@ https://nuget.org/packages/MiniProfiler.Fody/
     
 ### Your Code
 
-namespace MyNamespace
-{
-    public class MyClass
+    namespace MyNamespace
     {
-        public void MyMethod()
+        public class MyClass
         {
-            Console.WriteLine("Hello");
+            public void MyMethod()
+            {
+                Console.WriteLine("Hello");
+            }
         }
     }
-}
 
 ### What gets compiled with MiniProfiler.Fody
 

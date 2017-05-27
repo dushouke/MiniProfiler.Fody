@@ -31,7 +31,6 @@ https://nuget.org/packages/MiniProfiler.Fody/
                 IDisposable disposable = MiniProfiler.Current.Step("MyNamespace.MyClass.MyMethod()");
                 try
                 {
-                    //Some code u are curious how long it takes
                     Console.WriteLine("Hello");
                 }
                 finally

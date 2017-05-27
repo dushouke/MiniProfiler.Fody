@@ -7,14 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniProfiler.Fody", "MiniPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniProfiler.Fody.Tests", "MiniProfiler.Fody.Tests\MiniProfiler.Fody.Tests.csproj", "{E88FDBF3-D9AB-43CD-9013-D7DAF6F756E7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{AC4A5D68-6218-4BE7-AF9D-EB4F1EC360AF}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\EnsureMiniProfilerReference.cs = NuGet\EnsureMiniProfilerReference.cs
-		NuGet\install.ps1 = NuGet\install.ps1
-		NuGet\MiniProfiler.Fody.nupkg = NuGet\MiniProfiler.Fody.nupkg
-		NuGet\uninstall.ps1 = NuGet\uninstall.ps1
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

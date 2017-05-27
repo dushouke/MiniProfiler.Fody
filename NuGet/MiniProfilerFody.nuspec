@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>MiniProfiler.Fody</id>
+        <version>$version$</version>
+        <title>MiniProfiler.Fody</title>
+        <authors>JeffDu</authors>
+        <owners>JeffDu</owners>
+        <projectUrl>https://github.com/dushouke/MiniProfiler.Fody/tree/directref</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>MiniProfiler.Fody</description>
+        <dependencies>
+            <dependency id="Fody" version="2.0.10" />
+            <dependency id="MiniProfiler" version="3.2.0.157" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="tools\*.*" target="tools" />
+        <file src="content\EnsureMiniProfilerReference.cs" target="content" />
+        <file src="..\MiniProfiler.Fody\bin\Release\MiniProfiler.Fody.dll" />
+    </files>
+</package>

@@ -16,6 +16,8 @@ namespace MiniProfiler.Fody.Weavers
         protected readonly MethodBody _body;
         protected readonly bool _isEmptyBody;
 
+        protected static readonly string ProfilerStepVarName = "$profilerStep";
+
         internal MethodWeaverBase(TypeReferenceProvider typeReferenceProvider, MethodReferenceProvider methodReferenceProvider, MethodDefinition methodDefinition)
         {
             _typeReferenceProvider = typeReferenceProvider;
@@ -54,7 +56,7 @@ namespace MiniProfiler.Fody.Weavers
             {
                 if (_profilerStepVariable == null)
                 {
-                    _profilerStepVariable = _body.DeclareVariable("$step", _typeReferenceProvider.Disposable);
+                    _profilerStepVariable = _body.DeclareVariable(ProfilerStepVarName, _typeReferenceProvider.Disposable);
                 }
 
                 return _profilerStepVariable;
@@ -78,6 +80,18 @@ namespace MiniProfiler.Fody.Weavers
         protected abstract void WeaveProfilerLeave();
 
         protected abstract void WeaveProfilerEnter();
+
+
+        protected List<Instruction> CreateProfilerStepInstructions()
+        {
+            var instructions = new List<Instruction>();
+            instructions.Add(Instruction.Create(OpCodes.Call, _methodReferenceProvider.GetProfilerCurrent()));
+            instructions.AddRange(LoadMethodNameOnStack());
+            instructions.Add(Instruction.Create(OpCodes.Call, _methodReferenceProvider.GetProfilerStep()));
+            instructions.Add(Instruction.Create(OpCodes.Stloc, ProfilerStepVariable));
+
+            return instructions;
+        }
 
         protected IEnumerable<Instruction> LoadMethodNameOnStack()
         {

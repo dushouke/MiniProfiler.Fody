@@ -14,33 +14,6 @@ using NUnit.Framework;
 
 namespace MiniProfiler.Fody.Tests
 {
-    public class Test : TestBase
-    {
-        [Test]
-        public void T1()
-        {
-            string code = @"
-                using System;
-                using System.Diagnostics;
-                using System.Threading; 
-
-                namespace First
-                {
-                    public class MyClassBase{}
-                    public class MyClass:MyClassBase
-                    {
-                        public static void Main()
-                        {
-                            Thread.Sleep(10);
-                        }
-                    }
-                }
-            ";
-
-            var result = this.RunTest(code, NullProfilerFilter.Instance, "First.MyClass::Main");
-        }
-    }
-
     public class TestBase
     {
         private const string CustomTempFolder = @"c:\temp";
@@ -132,7 +105,11 @@ namespace MiniProfiler.Fody.Tests
 
             var assemblyPath = Compile(source, "testasm", new[] { testDllLocation.AbsolutePath });
             Rewrite(assemblyPath, filter, shouldTraceConstructors);
+
             Console.WriteLine(assemblyPath);
+
+            File.Copy(assemblyPath, @"d:\testasm.dll", true);
+
             return null;
             //----
             //return RunCode(assemblyPath, entryClass, entryMethod);
@@ -185,29 +162,4 @@ namespace MiniProfiler.Fody.Tests
 
         
     }
-
-    public class MockLogResult
-    {
-    }
-
-    public class MockLogManagerAdapter
-    {
-
-    }
-
-    internal class NullProfilerFilter : IProfilerFilter
-    {
-        public static readonly NullProfilerFilter Instance = new NullProfilerFilter();
-
-        private NullProfilerFilter()
-        {
-        }
-
-        public bool ShouldAddProfiler(MethodDefinition definition)
-        {
-            return true;
-        }
-    }
-
-
 }

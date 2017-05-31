@@ -22,13 +22,7 @@ namespace MiniProfiler.Fody.Weavers
         {
             _firstInstructionAfterProfilerEnter = _body.Instructions.FirstOrDefault();
 
-            var instructions = new List<Instruction>();
-            instructions.Add(Instruction.Create(OpCodes.Call, _methodReferenceProvider.GetProfilerCurrent()));
-            instructions.AddRange(LoadMethodNameOnStack());
-            instructions.Add(Instruction.Create(OpCodes.Call, _methodReferenceProvider.GetProfilerStep()));
-            instructions.Add(Instruction.Create(OpCodes.Stloc, ProfilerStepVariable));
-
-            _body.InsertAtTheBeginning(instructions);
+            _body.InsertAtTheBeginning(CreateProfilerStepInstructions());
         }
 
         protected override void WeaveProfilerLeave()

@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockLogManagerAdapter.cs" />
+    <Compile Include="MockLogResult.cs" />
+    <Compile Include="NullProfilerFilter.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

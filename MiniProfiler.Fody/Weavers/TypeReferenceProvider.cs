@@ -10,20 +10,20 @@ namespace MiniProfiler.Fody.Weavers
     {
         private readonly ModuleDefinition _moduleDefinition;
         private readonly Lazy<TypeReference> _disposable;
-        //private readonly Lazy<TypeReference> _asyncStateMachineAttribute;
+        private readonly Lazy<TypeReference> _asyncStateMachineAttribute;
 
         public TypeReferenceProvider(ModuleDefinition moduleDefinition)
         {
             _moduleDefinition = moduleDefinition;
             _disposable = new Lazy<TypeReference>(() => moduleDefinition.ImportReference(typeof(IDisposable)));
-            //_asyncStateMachineAttribute = new Lazy<TypeReference>(() => moduleDefinition.ImportReference(typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute)));
+            _asyncStateMachineAttribute = new Lazy<TypeReference>(() => moduleDefinition.ImportReference(typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute)));
         }
 
 
-        //public TypeReference AsyncStateMachineAttribute
-        //{
-        //    get { return _asyncStateMachineAttribute.Value; }
-        //}
+        public TypeReference AsyncStateMachineAttribute
+        {
+            get { return _asyncStateMachineAttribute.Value; }
+        }
 
         public TypeReference MiniProfiler
         {

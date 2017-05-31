@@ -1,3 +1,4 @@
+using System.Linq;
 using Mono.Cecil;
 
 namespace MiniProfiler.Fody.Weavers
@@ -23,11 +24,10 @@ namespace MiniProfiler.Fody.Weavers
             return new MethodWeaver(_typeReferenceProvider, _methodReferenceProvider, methodDefinition);
         }
 
-        private static bool IsAsyncMethod(MethodDefinition methodDefinition)
+        private bool IsAsyncMethod(MethodDefinition methodDefinition)
         {
-            return false;
-            //return
-            //    methodDefinition.CustomAttributes.Any(it => it.AttributeType.FullName.Equals(_typeReferenceProvider.AsyncStateMachineAttribute.FullName));
+            return
+                methodDefinition.CustomAttributes.Any(it => it.AttributeType.FullName.Equals(_typeReferenceProvider.AsyncStateMachineAttribute.FullName));
         }
     }
 }

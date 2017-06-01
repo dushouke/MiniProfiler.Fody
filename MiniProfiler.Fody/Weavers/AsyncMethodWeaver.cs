@@ -72,13 +72,13 @@ namespace MiniProfiler.Fody.Weavers
 
             if (setResultInstr != null)
             {
-                var disposeInstructions = CreateDisposeInstructions();
+                var disposeInstructions = CreateDisposeInstructions(setResultInstr);
                 setResultInstr.InsertBefore(processor, disposeInstructions);
             }
 
             if (setExceptionInstr != null)
             {
-                var disposeInstructions = CreateDisposeInstructions();
+                var disposeInstructions = CreateDisposeInstructions(setExceptionInstr);
                 setExceptionInstr.InsertBefore(processor, disposeInstructions);
             }
 
@@ -86,7 +86,7 @@ namespace MiniProfiler.Fody.Weavers
             _moveNextBody.OptimizeMacros();
         }
 
-        private List<Instruction> CreateDisposeInstructions()
+        private List<Instruction> CreateDisposeInstructions(Instruction instruction)
         {
             var disposeInstructions = new List<Instruction>();
 
@@ -95,13 +95,13 @@ namespace MiniProfiler.Fody.Weavers
             {
                 Instruction.Create(OpCodes.Ldarg_0),
                 Instruction.Create(OpCodes.Ldfld, _profilerStepFieldRef),
-                Instruction.Create(OpCodes.Brfalse_S, nop),
+                Instruction.Create(OpCodes.Brfalse_S, instruction),
 
                 Instruction.Create(OpCodes.Ldarg_0),
                 Instruction.Create(OpCodes.Ldfld, _profilerStepFieldRef),
                 Instruction.Create(OpCodes.Callvirt, _methodReferenceProvider.GetDispose()),
 
-                nop
+                //nop
             });
             return disposeInstructions;
         }

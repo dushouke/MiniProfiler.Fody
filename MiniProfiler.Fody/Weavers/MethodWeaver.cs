@@ -73,21 +73,17 @@ namespace MiniProfiler.Fody.Weavers
         {
             var instructions = new List<Instruction>();
 
-            var nop = Instruction.Create(OpCodes.Nop);
+            var endfinally = Instruction.Create(OpCodes.Endfinally);
             instructions.AddRange(new[]
             {
                 Instruction.Create(OpCodes.Ldloc, ProfilerStepVariable),
-                Instruction.Create(OpCodes.Ldnull),
-                Instruction.Create(OpCodes.Cgt_Un),
-                Instruction.Create(OpCodes.Brfalse_S, nop),
-                Instruction.Create(OpCodes.Nop),
+                Instruction.Create(OpCodes.Brfalse_S, endfinally),
+                
                 Instruction.Create(OpCodes.Ldloc, ProfilerStepVariable),
                 Instruction.Create(OpCodes.Callvirt, _methodReferenceProvider.GetDispose()),
-                Instruction.Create(OpCodes.Nop),
-                nop
-            });
 
-            instructions.Add(Instruction.Create(OpCodes.Endfinally));
+                endfinally
+            });
 
             return _body.AddAtTheEnd(instructions);
         }

@@ -32,16 +32,28 @@ namespace MiniProfiler.Fody
         private void EnsureMiniProfilerRef()
         {
             var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
-            if (miniProfilerReference != null)
+            if (miniProfilerReference == null)
             {
-                return;
+                EnsureRef(AppConsts.MiniProfilerName);
             }
 
-            var references = References.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            if (miniProfilerReference.Version.Major == 4)
+            {
+                var miniProfilerSharedReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
+                if (miniProfilerSharedReference == null)
+                {
+                    EnsureRef(AppConsts.MiniProfilerSharedName);
+                }
+            }
+        }
+
+        private void EnsureRef(string assemblyName)
+        {
+            var references = References.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var reference in references)
             {
                 var assemblyDefinition = AssemblyDefinition.ReadAssembly(reference);
-                if (assemblyDefinition.Name.Name != AppConsts.MiniProfilerName)
+                if (assemblyDefinition.Name.Name != assemblyName)
                 {
                     continue;
                 }

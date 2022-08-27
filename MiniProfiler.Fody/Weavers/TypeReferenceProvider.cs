@@ -45,21 +45,42 @@ namespace MiniProfiler.Fody.Weavers
         }
 
 
+        public TypeReference Timing
+        {
+            get
+            {
+                var miniProfilerReference = GetMiniProfilerReference();
+                return new TypeReference("StackExchange.Profiling", "Timing", _moduleDefinition, miniProfilerReference);
+            }
+        }
+
+        public Version MiniProfilerVersion
+        {
+            get
+            {
+                var miniProfilerReference = GetMiniProfilerReference();
+                return miniProfilerReference.Version;
+            }
+        }
+
         public TypeReference Disposable
         {
             get { return _disposable.Value; }
         }
 
-        private IMetadataScope _miniProfilerScope;
+        private AssemblyNameReference _miniProfilerNameReference;
 
-        public IMetadataScope GetMiniProfilerReference()
+        public AssemblyNameReference GetMiniProfilerReference()
         {
-            if (_miniProfilerScope == null)
+            if (_miniProfilerNameReference == null)
             {
-                _miniProfilerScope = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
+                _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
+
+                if (_miniProfilerNameReference.Version.Major == 4)
+                    _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
             }
 
-            return _miniProfilerScope;
+            return _miniProfilerNameReference;
         }
 
     }

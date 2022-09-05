@@ -31,24 +31,25 @@ namespace MiniProfiler.Fody
 
         private void EnsureMiniProfilerRef()
         {
-            var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
-            if (miniProfilerReference == null)
+            var miniProfilerSharedReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
+            if (miniProfilerSharedReference == null)
             {
-                EnsureRef(AppConsts.MiniProfilerName);
+                miniProfilerSharedReference = EnsureRef(AppConsts.MiniProfilerSharedName);
             }
 
-            if (miniProfilerReference.Version.Major == 4)
+            if (miniProfilerSharedReference == null)
             {
-                var miniProfilerSharedReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
-                if (miniProfilerSharedReference == null)
+                var miniProfilerReference = ModuleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
+                if (miniProfilerReference == null)
                 {
-                    EnsureRef(AppConsts.MiniProfilerSharedName);
+                    miniProfilerReference = EnsureRef(AppConsts.MiniProfilerName);
                 }
             }
         }
 
-        private void EnsureRef(string assemblyName)
+        private AssemblyNameReference EnsureRef(string assemblyName)
         {
+            AssemblyNameReference assemblyNameReference = null;
             var references = References.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var reference in references)
             {
@@ -58,9 +59,11 @@ namespace MiniProfiler.Fody
                     continue;
                 }
 
-                ModuleDefinition.AssemblyReferences.Add(AssemblyNameReference.Parse(assemblyDefinition.FullName));
+                assemblyNameReference = AssemblyNameReference.Parse(assemblyDefinition.FullName);
+                ModuleDefinition.AssemblyReferences.Add(assemblyNameReference);
                 break;
             }
+            return assemblyNameReference;
         }
 
         // Will contain the full element XML from FodyWeavers.xml. OPTIONAL

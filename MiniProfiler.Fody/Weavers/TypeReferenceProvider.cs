@@ -74,10 +74,10 @@ namespace MiniProfiler.Fody.Weavers
         {
             if (_miniProfilerNameReference == null)
             {
-                _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
+                _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
 
-                if (_miniProfilerNameReference.Version.Major == 4)
-                    _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerSharedName));
+                if (_miniProfilerNameReference == null)
+                    _miniProfilerNameReference = _moduleDefinition.AssemblyReferences.FirstOrDefault(assRef => assRef.Name.Equals(AppConsts.MiniProfilerName));
             }
 
             return _miniProfilerNameReference;

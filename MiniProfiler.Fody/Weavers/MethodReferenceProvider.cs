@@ -26,7 +26,14 @@ namespace MiniProfiler.Fody.Weavers
 
         public MethodReference GetProfilerStep()
         {
-            var getStepMethod = new MethodReference("Step", _typeReferenceProvider.Disposable, _typeReferenceProvider.MiniProfilerExtensions)
+            TypeReference stepReturnType;
+
+            if (_typeReferenceProvider.MiniProfilerVersion.Major == 4)
+                stepReturnType = _typeReferenceProvider.Timing;
+            else
+                stepReturnType = _typeReferenceProvider.Disposable;
+
+            var getStepMethod = new MethodReference("Step", stepReturnType, _typeReferenceProvider.MiniProfilerExtensions)
             {
                 HasThis = false
             };
